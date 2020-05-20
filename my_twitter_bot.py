@@ -5,11 +5,11 @@ from os import environ
 
 print("Th1s 1s my b0t!")
 
-CONSUMER_KEY = 'ZFrk16qw5xdx1bEOrCOCprxz4'
-CONSUMER_SECRET = 'pFB0lIu30oWLfNgqWmhAX1BrRsyRrMwaCW22h1tc6Xl0SOTCBy'
+CONSUMER_KEY = environ['CONSUMER_KEY']
+CONSUMER_SECRET = environ['CONSUMER_SECRET']
 
-ACCESS_KEY = '1262503482554286082-wNLdXqpOU8jWcz7nHdKmngomhRkatp'
-ACCESS_SECRET = 'PdMMKT5aXDtdy3pk8sPYKiOGmZcX1PfJtTBrDIWxohMXF'
+ACCESS_KEY = environ['ACCESS_KEY']
+ACCESS_SECRET = environ['ACCESS_SECRET']
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY,CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY,ACCESS_SECRET)
