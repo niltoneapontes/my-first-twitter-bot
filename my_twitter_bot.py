@@ -1,5 +1,7 @@
 import tweepy  
 import time
+import os
+from os import environ
 
 print("Th1s 1s my b0t!")
 
@@ -14,6 +16,7 @@ auth.set_access_token(ACCESS_KEY,ACCESS_SECRET)
 api = tweepy.API(auth)
 
 FILE_NAME = 'last_seen_id.txt'
+FILE_NAME_2 = 'last_seen_id2.txt'
 
 def retrieve_last_seen_id(file_name):
     f_read = open(file_name, 'r')
@@ -46,7 +49,48 @@ def reply_to_tweets():
             print('responding back...')
             api.update_status('@' + mention.user.screen_name +
                     ' old que ***', mention.id)
+    return
+
+def retrieve_last_seen_id2(file_name_2):
+    f_read = open(file_name_2, 'r')
+    last_seen_id2 = int(f_read.read().strip())
+    f_read.close()
+    return last_seen_id2
+
+def store_last_seen_id2(last_seen_id2, file_name_2):
+    f_write = open(file_name_2, 'w')
+    f_write.write(str(last_seen_id2))
+    f_write.close()
+    return
+
+# def retweet_off():
+#     query = 'off fariam'
+#     max_tweets = 10
+#     last_seen_id2 = retrieve_last_seen_id2(FILE_NAME_2)
+#     searched_tweets = [status for status in tweepy.Cursor(api.search, q=query, since_id=last_seen_id2).items(max_tweets)]
+#     for status in reversed(searched_tweets):
+#         last_seen_id2 = status.id
+#         store_last_seen_id2(last_seen_id2, FILE_NAME_2)            
+#         print('found "off fariam"')
+#         print('responding back...')
+#         api.retweet(status.id)
+#     return
+
+def answer_off():
+    query = 'off fariam'
+    max_tweets = 10
+    last_seen_id2 = retrieve_last_seen_id2(FILE_NAME_2)
+    searched_tweets = [status for status in tweepy.Cursor(api.search, q=query, since_id=last_seen_id2).items(max_tweets)]
+    for status in reversed(searched_tweets):
+        last_seen_id2 = status.id
+        store_last_seen_id2(last_seen_id2, FILE_NAME_2)            
+        print('found "off fariam"')
+        print('responding back...')
+        api.update_status('@' + status.user.screen_name + ' old que ***', status.id)
+    return
 
 while True:
     reply_to_tweets()
+    # retweet_off()
+    answer_off()
     time.sleep(15)
